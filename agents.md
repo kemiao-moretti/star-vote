@@ -7,7 +7,7 @@
 - **定位**：自部署的轻量评分（1–5 星）与投票（up/down）计数服务。
 - **运行时**：独立 Node HTTP 服务（内置 `node:http`），非 Serverless。
 - **数据库**：SQLite（Node 内置 `node:sqlite`），**唯一后端**。
-- **部署**：Docker 镜像 → 推 GHCR → SSH 到服务器 `docker compose pull && up -d`。
+- **部署**：Docker 镜像由 CI 构建推送至 GHCR，供任意环境拉取运行。
 - **依赖**：零第三方运行时依赖；数据库与 HTTP 均用 Node 内置模块，免编译。
 
 ## 2. 目录结构
@@ -87,9 +87,7 @@ star-vote/
 
 - **Dockerfile**：单阶段 `node:24-alpine`，`npm ci --omit=dev`，`node:sqlite` 免编译，`EXPOSE 5556`，`VOLUME /data`。
 - **compose**：`ghcr.io/<owner>/star-vote:latest`，`5556:5556`，`starvote_data:/data`。
-- **CI（deploy.yml）**：push `main` → buildx 构建（amd64）→ 推 GHCR（`GITHUB_TOKEN`）→ SSH 执行 `docker compose pull && up -d`。
-
-服务器 secrets：`SSH_HOST`、`SSH_USERNAME`、`SSH_KEY`、`SSH_PORT`、`DEPLOY_PATH`。
+- **CI（deploy.yml）**：push `main` → buildx 构建（amd64）→ 推 GHCR（`GITHUB_TOKEN`）。镜像供任何环境 `docker pull` 使用，不含服务器部署步骤。
 
 ## 9. 常见改动点 / Agent 注意事项
 

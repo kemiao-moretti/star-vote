@@ -1,5 +1,5 @@
-# push 到 main 时：构建镜像 → 推 GHCR → SSH 到服务器部署
-name: build-and-deploy
+# push 到 main 时：构建并推送镜像到 GHCR
+name: build-image
 
 on:
   push:
@@ -46,20 +46,3 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-  deploy:
-    needs: build-push
-    runs-on: ubuntu-latest
-    steps:
-      - name: SSH 部署到服务器
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          # 在部署目录放置 docker-compose.yml 后，拉新镜像并重建
-          script: |
-            cd ${{ secrets.DEPLOY_PATH }}
-            docker compose pull
-            docker compose up -d

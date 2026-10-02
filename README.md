@@ -51,30 +51,11 @@ PORT=5556 DB_PATH=./data/starvote.db HOSTS=localhost npm start
    docker compose up -d
    ```
 
-3. **反向代理**：Nginx/Caddy 将你的域名转发到 `127.0.0.1:5556`，并保持 `Referer`（即黑名单单选外，确保 `HOSTS` 含你的域名）。
+3. **（可选）反向代理**：Nginx/Caddy 将你的域名转发到 `127.0.0.1:5556`，并确保 `HOSTS` 含你的域名。
 
-## GitHub Actions 自动部署
+## GitHub Actions 构建镜像
 
-`.github/workflows/deploy.yml` 在 push 到 `main` 时：
-
-1. 用 buildx 构建镜像，推送至 GHCR（`ghcr.io/<repo>`）。
-2. 通过 SSH 登录服务器，执行 `docker compose pull && up -d`。
-
-服务器需满足：
-
-- 安装 Docker 与 Docker Compose。
-- 在部署目录放置 `docker-compose.yml`（替换 `<owner>`）。
-- 开通 SSH。
-
-仓库需配置 secrets：
-
-| secret | 说明 |
-|---|---|
-| `SSH_HOST` | 服务器地址 |
-| `SSH_USERNAME` | SSH 用户名 |
-| `SSH_KEY` | SSH 私钥 |
-| `SSH_PORT` | SSH 端口（可选，默认 22） |
-| `DEPLOY_PATH` | 服务器上 compose 所在目录 |
+`.github/workflows/deploy.yml` 在 push 到 `main` 时，用 buildx 构建镜像并推送至 GHCR（`ghcr.io/<repo>`），供任何环境拉取使用。
 
 > GHCR 鉴权使用自动提供的 `GITHUB_TOKEN`，无需额外配置。
 
