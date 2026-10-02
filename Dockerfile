@@ -1,14 +1,10 @@
-# StarVote 运行时镜像：node:24-alpine + 内置 node:sqlite（无原生编译依赖）
+# StarVote 运行时镜像：node:24-alpine，零第三方依赖（HTTP/数据库均用 Node 内置模块）
 FROM node:24-alpine
 
 WORKDIR /app
 ENV NODE_ENV=production \
     PORT=5556 \
     DB_PATH=/data/starvote.db
-
-# 仅安装生产依赖（axios）；node:sqlite 为 Node 内置，无需额外包
-COPY package.json package-lock.json ./
-RUN npm ci --omit=dev
 
 COPY src ./src
 

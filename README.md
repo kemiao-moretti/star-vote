@@ -8,7 +8,7 @@
 - up / down 投票计数
 - SQLite 持久化（容器挂载 volume，重启不丢数据）
 - Referer 域名白名单校验，防盗链
-- 零第三方运行时依赖（仅 `axios`；数据库用 Node 内置 `node:sqlite`）
+- 零第三方运行时依赖（HTTP 与数据库均用 Node 内置模块）
 
 ## 快速开始（本地）
 

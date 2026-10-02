@@ -8,7 +8,7 @@
 - **运行时**：独立 Node HTTP 服务（内置 `node:http`），非 Serverless。
 - **数据库**：SQLite（Node 内置 `node:sqlite`），**唯一后端**。
 - **部署**：Docker 镜像 → 推 GHCR → SSH 到服务器 `docker compose pull && up -d`。
-- **依赖**：`axios`（唯一第三方依赖）；数据库用 Node 内置模块，免编译。
+- **依赖**：零第三方运行时依赖；数据库与 HTTP 均用 Node 内置模块，免编译。
 
 ## 2. 目录结构
 
