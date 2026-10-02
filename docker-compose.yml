@@ -1,0 +1,17 @@
+# StarVote 部署模板 — 将 <owner> 替换为你的 GitHub 用户名
+# 服务器端放置本文件，CI 通过 `docker compose pull && up -d` 更新
+services:
+  starvote:
+    image: ghcr.io/<owner>/star-vote:latest
+    container_name: starvote
+    ports:
+      - "5556:5556"
+    volumes:
+      - starvote_data:/data
+    environment:
+      # 允许的 Referer 域名（逗号分隔），按需修改
+      - HOSTS=localhost, xaoxuu.com, xaox.cc
+    restart: unless-stopped
+
+volumes:
+  starvote_data:
