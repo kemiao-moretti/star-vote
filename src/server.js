@@ -74,9 +74,9 @@ export function createServer(options = {}) {
     res.end(JSON.stringify({ rating }));
   };
 
-  const ratingUpdate = async (_req, res, p) => {
+  const ratingUpdate = (_req, res, p) => {
     const { id, value } = Object.fromEntries(p.entries());
-    const score = Number.parseInt(value, 10);
+    const score = Number(value);
     if (!id || !Number.isInteger(score) || score < 1 || score > 5) {
       return sendJson(res, 400, { error: 'Invalid rating parameters' });
     }

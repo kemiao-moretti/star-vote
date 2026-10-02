@@ -72,6 +72,12 @@ test('POST rating/update 超范围分数 → 400', async () => {
   assert.deepEqual(await res.json(), { error: 'Invalid rating parameters' });
 });
 
+test('POST rating/update 小数值 → 400（不自减截断）', async () => {
+  const res = await req(ctx.base, '/api/rating/update?id=a&value=2.5', { method: 'POST' });
+  assert.equal(res.status, 400);
+  assert.deepEqual(await res.json(), { error: 'Invalid rating parameters' });
+});
+
 test('POST vote/update 非法类型 → 400', async () => {
   const res = await req(ctx.base, '/api/vote/update?id=a&value=bad', { method: 'POST' });
   assert.equal(res.status, 400);
