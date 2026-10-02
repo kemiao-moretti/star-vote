@@ -71,6 +71,12 @@ web_modules/
 .env.*
 !.env.example
 
+# SQLite 运行时数据
+data/
+
+# superpowers 执行工作区
+.superpowers/
+
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 .parcel-cache
