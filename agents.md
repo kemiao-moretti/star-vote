@@ -85,9 +85,9 @@ star-vote/
 
 ## 8. 部署
 
-- **Dockerfile**：单阶段 `node:24-alpine`，`npm ci --omit=dev`，`node:sqlite` 免编译，`EXPOSE 5556`，`VOLUME /data`。
-- **compose**：`ghcr.io/<owner>/star-vote:latest`，`5556:5556`，`starvote_data:/data`。
-- **CI（deploy.yml）**：push `main` → buildx 构建（amd64）→ 推 GHCR（`GITHUB_TOKEN`）。镜像供任何环境 `docker pull` 使用，不含服务器部署步骤。
+- **Dockerfile**：单阶段 `node:24-alpine`，零第三方依赖（HTTP/数据库均内置模块），`EXPOSE 5556`，`VOLUME /data`。
+- **compose**：`ghcr.io/<owner>/star-vote:latest`，`5556:5556`，`starvote_data:/data`；`HOSTS` 从 `.env` 注入，**多个站点用逗号分隔**（如 `HOSTS=site1.com,site2.com`），未设置则拒绝一切请求。
+- **CI（deploy.yml）**：push `main` → buildx 构建（amd64）→ 推 GHCR（默认打 `latest` 标签，`GITHUB_TOKEN` 鉴权）。镜像供任何环境 `docker pull` 使用，不含服务器部署步骤。
 
 ## 9. 常见改动点 / Agent 注意事项
 

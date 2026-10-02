@@ -46,10 +46,18 @@ docker run -d \
 
 ### 方式二：docker-compose
 
-复制 `docker-compose.yml`，把 `<owner>` 换成你的 GitHub 用户名（或直接改为本地镜像名 `star-vote`），并填写 `HOSTS`，然后：
+1. 复制 `.env.example` 为 `.env`，在 `HOSTS` 中填你的站点（**多个域名用逗号分隔**）。
+2. 把 `docker-compose.yml` 里的 `<owner>` 换成你的 GitHub 用户名（或改为本地镜像名 `star-vote`）。
+3. 启动：
 
 ```bash
 docker compose up -d
+```
+
+多站点示例（`.env`）：
+
+```dotenv
+HOSTS=example.com, example.org, blog.example.com
 ```
 
 ### 反向代理（可选）
